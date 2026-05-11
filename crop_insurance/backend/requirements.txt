@@ -12,3 +12,4 @@ python-dotenv
 matplotlib
 joblib
 gunicorn
+psycopg2-binary
