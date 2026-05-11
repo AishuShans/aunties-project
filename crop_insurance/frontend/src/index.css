@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+  
+  --color-earth-100: #fef08a;
+  --color-earth-500: #eab308;
+  --color-earth-800: #854d0e;
+  
+  --color-sky-100: #e0f2fe;
+  --color-sky-500: #0ea5e9;
+  --color-sky-800: #075985;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: radial-gradient(circle at top left, #f0fdf4, #e0f2fe, #fef08a, #f0fdf4);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+/* Custom Glassmorphism Utilities */
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-lg border border-white/50 shadow-xl;
+  }
+  .glass-dark {
+    @apply bg-gray-900/80 backdrop-blur-xl border border-gray-700/50 shadow-2xl;
+  }
+  .input-glass {
+    @apply bg-white/60 backdrop-blur-md border border-emerald-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-gray-800 shadow-inner;
+  }
+  .btn-primary {
+    @apply bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 font-bold tracking-wide;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-sky-600;
+  }
+}
+

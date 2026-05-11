@@ -1,0 +1,14 @@
+fastapi[standard]
+sqlalchemy
+pydantic
+scikit-learn
+reportlab
+earthengine-api
+pandas
+numpy
+uvicorn[standard]
+python-multipart
+python-dotenv
+matplotlib
+joblib
+gunicorn

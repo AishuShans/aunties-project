@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.env
+
+# Node
+node_modules/
+dist/
+.DS_Store
+
+# Databases
+*.db
+*.sqlite3
+
+# Streamlit
+.streamlit/
+
+# Large Files (Required for app functionality)
+# Pushing these to GitHub as they are under the 100MB limit.
