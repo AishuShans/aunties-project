@@ -1,0 +1,12 @@
+services:
+  # Single unified web service — Backend compiles and serves React frontend
+  - type: web
+    name: agrishield
+    env: python
+    plan: free
+    rootDir: crop_insurance
+    buildCommand: bash build.sh
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
