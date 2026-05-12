@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import api from '../api';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Loader2, Users, UserPlus, Search, Download, Shield, ChevronDown, ChevronUp, CheckCircle, Plus, AlertCircle, FileText, List, ArrowRight } from 'lucide-react';
+import { Loader2, Users, UserPlus, Search, Download, Shield, ChevronDown, ChevronUp, CheckCircle, Plus, AlertCircle, FileText, List, ArrowRight, Trash2 } from 'lucide-react';
 import { useTranslation } from '../i18n/LanguageContext';
 
 const INDIAN_STATES = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal"];
@@ -134,6 +134,23 @@ const AdminDashboard = () => {
         } catch (err) {
             console.error('Certificate download failed:', err);
             alert("Failed to download certificate");
+        }
+    };
+
+    const handleDeleteFarmer = async (fId, name) => {
+        if (!window.confirm(`Are you sure you want to delete farmer "${name}" (${fId}) and all associated policies and claims? This action cannot be undone.`)) {
+            return;
+        }
+        try {
+            await api.delete(`/api/farmers/${fId}`);
+            setFarmers(prev => prev.filter(f => f.farmer_id !== fId));
+            if (expandedFarmerId === fId) {
+                setExpandedFarmerId(null);
+            }
+            alert(`Farmer "${name}" deleted successfully.`);
+        } catch (err) {
+            console.error("Error deleting farmer:", err);
+            alert(err.response?.data?.detail || "Failed to delete farmer.");
         }
     };
 
@@ -642,6 +659,13 @@ const AdminDashboard = () => {
                                                     title="Download ID Card"
                                                 >
                                                     <Download className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteFarmer(farmer.farmer_id, farmer.full_name)}
+                                                    className="p-2.5 rounded-xl border border-gray-200 hover:border-red-500 hover:bg-red-50 text-gray-600 hover:text-red-700 transition"
+                                                    title="Delete Farmer"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => toggleFarmerExpand(farmer.farmer_id)}

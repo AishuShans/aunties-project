@@ -163,6 +163,21 @@ def download_farmer_card(farmer_id: str, lang: str = "en", db: Session = Depends
         headers={"Content-Disposition": f"attachment; filename=farmer_card_{farmer_id}.pdf"}
     )
 
+@app.delete("/api/farmers/{farmer_id}")
+def delete_farmer(farmer_id: str, db: Session = Depends(get_db)):
+    farmer = db.query(Farmer).filter(Farmer.farmer_id == farmer_id).first()
+    if not farmer:
+        raise HTTPException(status_code=404, detail="Farmer not found")
+    
+    # Delete associated policies and claims
+    db.query(Policy).filter(Policy.farmer_id == farmer_id).delete()
+    db.query(Claim).filter(Claim.farmer_id == farmer_id).delete()
+    
+    # Delete farmer
+    db.delete(farmer)
+    db.commit()
+    return {"message": "Farmer and all associated policies and claims deleted successfully"}
+
 # --- Insurance Policies ---
 
 @app.post("/api/policies", response_model=PolicyResponse)
